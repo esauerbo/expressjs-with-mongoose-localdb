@@ -14,6 +14,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/users', async (req, res) => {
+    console.log("Backend with db getting users");
     const name = req.query['name'];
     const job = req.query['job'];
     try {
@@ -43,6 +44,18 @@ app.post('/users', async (req, res) => {
     else
         res.status(500).end();
 });
+
+app.delete('/users/:id', (req, res) => {
+    const id = req.params['id'];
+    if (id === undefined)
+       res.status(404).send('Resource not found.');
+    else {
+       userServices.deleteUserById(id);
+       res.status(204).end();
+    }
+    
+ });
+ 
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
